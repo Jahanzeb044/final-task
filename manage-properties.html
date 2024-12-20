@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Properties</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Manage Properties</h2>
+
+        <table id="propertiesTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Property Name</th>
+                    <th onclick="sortTable(1)">Location</th>
+                    <th>Type</th>
+                    <th onclick="sortTable(3)">Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Properties will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Retrieve properties from localStorage
+        let properties = JSON.parse(localStorage.getItem('properties')) || [];
+
+        // Function to render the properties
+        function renderProperties() {
+            const tableBody = document.getElementById('propertiesTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear the existing rows
+
+            // Add each property to the table
+            properties.forEach((property, index) => {
+                const row = tableBody.insertRow();
+
+                const cell1 = row.insertCell(0);
+                cell1.textContent = property.propertyName;
+
+                const cell2 = row.insertCell(1);
+                cell2.textContent = property.location;
+
+                const cell3 = row.insertCell(2);
+                cell3.textContent = property.propertyType;
+
+                const cell4 = row.insertCell(3);
+                cell4.textContent = property.price;
+
+                const cell5 = row.insertCell(4);
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.onclick = () => editProperty(index);
+                editButton.classList.add('action-btn');
+                cell5.appendChild(editButton);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteProperty(index);
+                deleteButton.classList.add('action-btn');
+                cell5.appendChild(deleteButton);
+            });
+        }
+
+        // Function to handle sorting the table by columns
+        function sortTable(columnIndex) {
+            const rows = Array.from(document.getElementById('propertiesTable').rows);
+            const headerRow = rows.shift(); // Remove the header row
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent;
+                const bText = b.cells[columnIndex].textContent;
+                return aText.localeCompare(bText, undefined, { numeric: true });
+            });
+
+            // Reinsert the header row and sorted rows
+            const tableBody = document.getElementById('propertiesTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '';
+            rows.forEach(row => tableBody.appendChild(row));
+            tableBody.prepend(headerRow);
+        }
+
+        // Edit Property (this is a placeholder)
+        function editProperty(index) {
+            const property = properties[index];
+            alert('Edit Property: ' + property.propertyName);
+        }
+
+        // Delete Property
+        function deleteProperty(index) {
+            properties.splice(index, 1);
+            localStorage.setItem('properties', JSON.stringify(properties)); // Update localStorage
+            renderProperties(); // Re-render the table with the updated properties
+        }
+
+        // Initially render properties
+        window.onload = function() {
+            renderProperties();
+        };
+    </script>
+</body>
+</html>

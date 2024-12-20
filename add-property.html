@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Property</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Add Property</h2>
+        <form id="addPropertyForm">
+            <div class="form-group">
+                <label for="propertyName">Property Name:</label>
+                <input type="text" id="propertyName" name="propertyName" required><br>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <select id="location" name="location" required>
+                    <option value="Gulshan">Gulshan</option>
+                    <option value="Clifton">Clifton</option>
+                    <option value="Korangi">Korangi</option>
+                    <option value="Saddar">Saddar</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Property Type:</label>
+                <input type="radio" id="hostel" name="propertyType" value="Hostel" required> Hostel
+                <input type="radio" id="flat" name="propertyType" value="Flat" required> Flat
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price (in PKR):</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Property Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="images">Upload Images:</label>
+                <input type="file" id="images" name="images" multiple>
+            </div>
+
+            <button type="submit">Add Property</button>
+        </form>
+    </div>
+
+    <script>
+        // Get properties from localStorage or initialize as empty array
+        let properties = JSON.parse(localStorage.getItem('properties')) || [];
+
+        // Event listener for form submission
+        document.getElementById('addPropertyForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const propertyName = document.getElementById('propertyName').value;
+            const location = document.getElementById('location').value;
+            const propertyType = document.querySelector('input[name="propertyType"]:checked').value;
+            const price = document.getElementById('price').value;
+            const description = document.getElementById('description').value;
+
+            const newProperty = {
+                propertyName,
+                location,
+                propertyType,
+                price,
+                description
+            };
+
+            // Add the new property to the properties array
+            properties.push(newProperty);
+
+            // Save the updated properties array to localStorage
+            localStorage.setItem('properties', JSON.stringify(properties));
+
+            // Show success message
+            alert("Property Added Successfully");
+
+            // Reset the form
+            document.getElementById('addPropertyForm').reset();
+        });
+    </script>
+</body>
+</html>

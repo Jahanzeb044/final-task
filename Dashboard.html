@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to the Admin Dashboard</h2>
+        <p>You are successfully logged in!</p>
+        <a href="add-property.html">Add New Property</a>
+        <a href="manage-properties.html">Manage Properties</a>
+        <br>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        // Logout function to redirect back to the login page
+        function logout() {
+            // Redirect to the login page
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
